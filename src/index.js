@@ -15,21 +15,46 @@ app.get('/', (req, res) => {
 
 //! CRUD users
 //* get all user
-//? get /users ->user page
-app.get('/user', (req, res) => {
+//? get /user ->user page
+app.get('/users', (req, res) => {
     res.send("<h1>User page</h1>")
 })
 
-app.post('/user',(req,res)=>{
+// create
+app.post('/users',(req,res)=>{
     res.send("<h1>User created</h1>")
 })
 
-app.put('/user',(req,res)=>{
+// update
+app.put('/users',(req,res)=>{
     res.send("<h1>User updated</h1>")
 })
 
-app.delete('/user',(req,res)=>{
+// delete
+app.delete('/users',(req,res)=>{
     res.send("<h1>User deleted</h1>")
+})
+
+//! CRUD product
+//* get all product
+//? get /products ->product page
+app.get('/products', (req, res) => {
+    res.send("<h1>Product page</h1>")
+})
+
+// create
+app.post('/products',(req,res)=>{
+    res.send("<h1>Product created</h1>")
+})
+
+// update
+app.put('/products',(req,res)=>{
+    res.send("<h1>Product updated</h1>")
+})
+
+// delete
+app.delete('/products',(req,res)=>{
+    res.send("<h1>Product deleted</h1>");
 })
 
 server.listen(8080, "localhost", () => {
