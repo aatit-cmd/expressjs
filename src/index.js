@@ -13,10 +13,23 @@ app.get('/', (req, res) => {
     res.send("<h1>Home page</h1>")
 })
 
+//! CRUD users
 //* get all user
 //? get /users ->user page
 app.get('/user', (req, res) => {
     res.send("<h1>User page</h1>")
+})
+
+app.post('/user',(req,res)=>{
+    res.send("<h1>User created</h1>")
+})
+
+app.put('/user',(req,res)=>{
+    res.send("<h1>User updated</h1>")
+})
+
+app.delete('/user',(req,res)=>{
+    res.send("<h1>User deleted</h1>")
 })
 
 server.listen(8080, "localhost", () => {
