@@ -129,6 +129,25 @@ res.json({
 })
 });
 
+//* get by id
+app.get("/users/:id", (req, res) => {
+//   res.send("<h1>User page</h1>");
+// req.params => {} => {id :1}
+// console.log(req.params)
+
+const id = req.params.id
+res.json({
+    message: `user by id ${id} fetched`,
+    success: true,
+    data : [{
+        _id :id,
+        name : "john doe",
+        email: "john@gmail.com"
+    }]
+})
+});
+
+
 server.listen(8080, "localhost", () => {
   console.log(`server is running at http://localhost:8080`);
   console.log("press ctrl+c to close the server");
