@@ -76,31 +76,57 @@ res.json({
 //? get /products ->product page
 app.get("/products", (req, res) => {
 //   res.send("<h1>Product page</h1>");
-
+res.json({
+    message: "all products fetched",
+    success: true,
+    data : [{
+        _id :1,
+        name : "product1",
+        brand : "brand1"
+    }]
+})
 });
 
 // create
 app.post("/products", (req, res) => {
 //   res.send("<h1>Product created</h1>");
+res.json({
+    message: "product created",
+    success: true,
+    data : {
+        _id :1,
+        name : "product1",
+        brand : "brand"
+    }
+})
 });
 
 // update
 app.put("/products", (req, res) => {
 //   res.send("<h1>Product updated</h1>");
 res.json({
-    message: "user created",
+    message: "product updated",
     success: true,
     data : {
         _id :1,
-        name : "john doe",
-        email: "john@gmail.com"
+        name : "product1",
+        brand : "brand"
     }
 })
 });
 
 // delete
 app.delete("/products", (req, res) => {
-  res.send("<h1>Product deleted</h1>");
+//   res.send("<h1>Product deleted</h1>");
+res.json({
+    message: "product deleted",
+    success: true,
+    data : {
+        _id :1,
+        name : "product1",
+        brand : "brand"
+    }
+})
 });
 
 server.listen(8080, "localhost", () => {
