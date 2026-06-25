@@ -44,13 +44,14 @@ res.json({
 });
 
 // update
-app.put("/users", (req, res) => {
+app.put("/users/:id", (req, res) => {
 //   res.send("<h1>User updated</h1>");
+const id = req.params.id
 res.json({
-    message: "user updated",
+    message: `user updated by id ${id}`,
     success: true,
     data : {
-        _id :1,
+        _id :id,
         name : "john doe",
         email: "john@gmail.com"
     }
@@ -58,10 +59,11 @@ res.json({
 });
 
 // delete
-app.delete("/users", (req, res) => {
+app.delete("/users/:id", (req, res) => {
 //   res.send("<h1>User deleted</h1>");
+const id = req.params.id
 res.json({
-    message: "user deleted",
+    message: `user deleted by id ${id}`,
     success: true,
     data : {
         _id :1,
@@ -87,6 +89,20 @@ res.json({
 })
 });
 
+//* get  product by id
+app.get("/products/:id", (req, res) => {
+const id = req.params.id
+res.json({
+    message: `product by id ${id} fetched`,
+    success: true,
+     data : [{
+        _id :1,
+        name : "product1",
+        brand : "brand1"
+    }]
+})
+});
+
 // create
 app.post("/products", (req, res) => {
 //   res.send("<h1>Product created</h1>");
@@ -102,13 +118,14 @@ res.json({
 });
 
 // update
-app.put("/products", (req, res) => {
+app.put("/products/:id", (req, res) => {
 //   res.send("<h1>Product updated</h1>");
+const id = req.params.id;
 res.json({
-    message: "product updated",
+    message: "`product by id ${id} updated`",
     success: true,
     data : {
-        _id :1,
+        _id :id,
         name : "product1",
         brand : "brand"
     }
@@ -116,20 +133,21 @@ res.json({
 });
 
 // delete
-app.delete("/products", (req, res) => {
+app.delete("/products/:id", (req, res) => {
 //   res.send("<h1>Product deleted</h1>");
+const id = req.params.id;
 res.json({
-    message: "product deleted",
+    message: "`product by id ${id} deleted`",
     success: true,
     data : {
-        _id :1,
+        _id :id,
         name : "product1",
         brand : "brand"
     }
 })
 });
 
-//* get by id
+//* get users by id
 app.get("/users/:id", (req, res) => {
 //   res.send("<h1>User page</h1>");
 // req.params => {} => {id :1}
