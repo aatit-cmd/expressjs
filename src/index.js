@@ -1,245 +1,33 @@
 import http from "http";
 import express from "express";
+import userRoutes from "./routes/user.routes.js";
+import productRoutes from "./routes/produt.routes.js";
+
 const app = express();
 
 //* creating http server
 const server = http.createServer(app);
 
 app.use(express.json());
-const users = [];
+
 // ip -> 198.168.1.1
-const products = [];
+
 
 //* home -> get, / => <h1>home page</h1>
 // app.get(path, handler)
 app.get("/", (req, res) => {
-  res.send("<h1>Home page</h1>");
-});
-
-//! CRUD users
-//* get all user
-//? get /user ->user page
-app.get("/users", (req, res) => {
-  //   res.send("<h1>User page</h1>");
-  const query = req.query;
-  console.log(query);
-  // console.log(req.url)
-  // console.log(req.originalUrl)
-  res.json({
-    message: "user fetched",
+  // res.send("<h1>Home page</h1>");
+  res.status(200).json({
+    message: "server is running",
     success: true,
-    // data : [{
-    //     _id :1,
-    //     name : "john doe",
-    //     email: "john@gmail.com"
-    // }]
-    data: users,
+    data: null,
   });
 });
 
-// create
-app.post("/users", (req, res) => {
-  //   res.send("<h1>User created</h1>");
-  // console.log(req.body)
-  const { name, email, password } = req.body;
-  users.push({
-    name,
-    email,
-    password,
-    createdAt: Date.now(),
-    _id: users.length + 1,
-  });
-  res.json({
-    message: "user created",
-    success: true,
-    data: users[users.length - 1],
-  });
-});
+//! using routes
+app.use("/users", userRoutes);
 
-// get by id
-app.get("/users/:id", (req, res) => {
-  const { id } = req.params; // becasue req.params give object
-  const user = users.find((users) => users._id === Number(id));
-
-  if (!user) {
-    res.json({
-      message: "user not foound",
-      sucess: false,
-      data: null,
-    });
-    return;
-  }
-  res.json({
-    message: `user fetched by id ${id}`,
-    success: true,
-    data: user,
-  });
-});
-
-// update
-app.put("/users/:id", (req, res) => {
-  //   res.send("<h1>User updated</h1>");
-  const { id } = req.params;
-  const index = users.findIndex((user) => user._id === Number(id));
-
-  const { name, email, password } = req.body;
-
-  if (index === -1) {
-    res.json({
-      message: "user not found",
-      sucess: false,
-      data: null,
-    });
-    return;
-  }
-  res.json({
-    message: `user updated by id ${id}`,
-    success: true,
-    data: {
-      ...users[index],
-      name,
-      email,
-      password,
-    },
-  });
-});
-
-// delete
-app.delete("/users/:id", (req, res) => {
-  //   res.send("<h1>User deleted</h1>");
-  const {id} = req.params;
-
-  const index = users.findIndex((user)=>user._id===Number(id));
-  if (index === -1) {
-    res.json({
-      message: "user not found",
-      sucess: false,
-      data: null,
-    });
-    return;
-  }
-  users.splice(index,1);
-  res.json({
-    message: `user deleted by id ${id}`,
-    success: true,
-    data: null
-  });
-});
-
-//! CRUD product
-//* get all product
-//? get /products ->product page
-app.get("/products", (req, res) => {
-  //   res.send("<h1>Product page</h1>");
-  res.json({
-    message: "all products fetched",
-    success: true,
-    data: products,
-  });
-});
-
-//* get  product by id
-app.get("/products/:id", (req, res) => {
-  // const id = req.params.id
-  const { id } = req.params; // as req.prarams give object
-  const product = products.find((product) => product._id === Number(id));
-
-  if (!product) {
-    res.json({
-      message: "product not foound",
-      sucess: false,
-      data: null,
-    });
-    return;
-  }
-
-  res.json({
-    message: `product by id ${id} fetched`,
-    success: true,
-    data: product,
-  });
-});
-
-// create
-app.post("/products", (req, res) => {
-  //   res.send("<h1>Product created</h1>");
-  const { name, price, brand } = req.body;
-  products.push({
-    name,
-    price,
-    brand,
-    createdAt: Date.now(),
-    _id: products.length + 1,
-  });
-  res.json({
-    message: "product created",
-    success: true,
-    data: products[products.length - 1],
-  });
-});
-
-// update
-app.put("/products/:id", (req, res) => {
-  //   res.send("<h1>Product updated</h1>");
-  const { id } = req.params;
-  const index = products.findIndex((products) => products._id === Number(id));
-
-  const { name, price, brand } = req.body;
-
-  if (index === -1) {
-    res.json({
-      message: "product not found",
-      sucess: false,
-      data: null,
-    });
-    return;
-  }
-  res.json({
-    message: `product updated by id ${id}`,
-    success: true,
-    data: {
-      ...products[index],
-      name,
-      price,
-      brand,
-    },
-  });
-});
-
-// delete
-app.delete("/products/:id", (req, res) => {
-  //   res.send("<h1>Product deleted</h1>");
-  const id = req.params.id;
-  res.json({
-    message: "`product by id ${id} deleted`",
-    success: true,
-    data: {
-      _id: id,
-      name: "product1",
-      brand: "brand",
-    },
-  });
-});
-
-//* get users by id
-app.get("/users/:id", (req, res) => {
-  //   res.send("<h1>User page</h1>");
-  // req.params => {} => {id :1}
-  // console.log(req.params)
-
-  const id = req.params.id;
-  res.json({
-    message: `user by id ${id} fetched`,
-    success: true,
-    data: [
-      {
-        _id: id,
-        name: "john doe",
-        email: "john@gmail.com",
-      },
-    ],
-  });
-});
+app.use("/products", productRoutes);
 
 server.listen(8080, "localhost", () => {
   console.log(`server is running at http://localhost:8080`);
@@ -255,3 +43,50 @@ server.listen(8080, "localhost", () => {
 // req.params -> {}
 // req.query -> {name:"john",page:"1",limit:"10"}
 // req.body
+
+//! REST api
+//? REST -> Represenational state transfer
+//? api -> Application programming interface
+
+//? constraints of REST api
+//* client-server -> separation of concerns. The client and server are separate entities that communicate with each other over a network. The client is responsible for the user interface and user experience, while the server is responsible for processing requests and managing data. This separation allows for greater flexibility and scalability in the application architecture.
+
+//* cacheable -> responses from the server can be cached by the client or intermediate servers to improve performance and reduce latency. Caching can be done at various levels, including the client, server, or proxy servers. The server can include caching directives in the response headers to indicate how long the response can be cached and under what conditions it can be reused.
+// cache-control
+
+//* stateless -> it does not store any state about the client on the server side. Each request from the client to the server must contain all the information needed to understand and process the request. The server does not retain any session information between requests. every request is independent and it is treated as a new request. This means that the server does not remember any previous interactions with the client. Each request is self-contained and must include all necessary information for the server to fulfill it.
+
+// token is generated by the server and sent to the client. The client includes this token in subsequent requests to authenticate itself. The server verifies the token to ensure that the request is coming from an authenticated client. This allows the server to maintain a stateless architecture while still providing secure access to resources.
+
+//* layered architecure -> The architecture of a RESTful API can be organized into layers, with each layer responsible for a specific set of tasks. The client interacts with the API through a series of layers, which can include caching, authentication, and load balancing. Each layer can be implemented independently, allowing for greater flexibility and scalability in the application architecture.
+// client - cdn, proxy , load balancer .. - server
+
+// uniform interface
+// route naming
+// use noun
+// use meaningful http methods -> GET, POST, PUT, PATCH, DELETE
+// use meaningful response status code
+//? 100 - 199 -> informational
+//? 200 - 299 -> success ,
+//  200 -> ok ,
+// 201 -> created
+// 202 -> accepted
+
+//? 300 - 399 -> redirection
+//? 400 - 500 -> client side error eg 404
+// 400 -> bad request
+// 401 -> unauthorized
+// 403 -> forbidden
+// 404 -> not found
+
+//? 500 - 599 -> server side error eg 500,502 bad gateway
+// 500 -> internal server error
+// 502 -> bad gateway
+// 503 -> service unavailable
+
+//! endpoints
+//? users
+// get /users -> get all users
+
+//! resources
+// /dashboard -> {}
