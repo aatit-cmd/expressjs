@@ -38,8 +38,6 @@ export const getById =  (req, res) => {
 }
 
 export const create = (req, res) => {
-  //   res.send("<h1>User created</h1>");
-  // console.log(req.body)
   const { name, email, password } = req.body;
   users.push({
     name,

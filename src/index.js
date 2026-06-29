@@ -2,6 +2,7 @@ import http from "http";
 import express from "express";
 import userRoutes from "./routes/user.routes.js";
 import productRoutes from "./routes/produt.routes.js";
+import categoryRoutes from "./routes/category.routes.js"
 
 const app = express();
 
@@ -28,6 +29,8 @@ app.get("/", (req, res) => {
 app.use("/users", userRoutes);
 
 app.use("/products", productRoutes);
+
+app.use("/categories",categoryRoutes);
 
 server.listen(8080, "localhost", () => {
   console.log(`server is running at http://localhost:8080`);
