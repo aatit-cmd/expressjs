@@ -18,18 +18,24 @@ export const getAll=(req, res) => {
   });
 }
 
-export const getById =  (req, res) => {
+export const getById =  (req, res, next) => {
   const { id } = req.params; // becasue req.params give object
   const user = users.find((users) => users._id === Number(id));
 
   if (!user) {
-    res.status(404).json({
-      message: "user not foound",
-      sucess: false,
-      data: null,
+    // res.status(404).json({
+    //   message: "user not foound",
+    //   sucess: false,
+    //   data: null,
+    // });
+
+    next({
+      message: "user not found",
+      statuscode: 404
     });
     return;
   }
+
   res.status(200).json({
     message: `user fetched by id ${id}`,
     success: true,
@@ -37,8 +43,31 @@ export const getById =  (req, res) => {
   });
 }
 
-export const create = (req, res) => {
+export const create = (req, res, next) => {
   const { name, email, password } = req.body;
+
+  if(!name){
+    next({
+      message: "name required",
+      statuscode : 400
+    })
+    return;
+  }
+  if(!email){
+    next({
+      message: "email required",
+      statuscode : 400
+    })
+    return;
+  }
+  if(!password){
+    next({
+      message: "password required",
+      statuscode : 400
+    })
+    return;
+  }
+
   users.push({
     name,
     email,
@@ -53,19 +82,45 @@ export const create = (req, res) => {
   });
 }
 
-export const update= (req, res) => {
+export const update= (req, res, next) => {
   //   res.send("<h1>User updated</h1>");
   const { id } = req.params;
   const index = users.findIndex((user) => user._id === Number(id));
 
   const { name, email, password } = req.body;
 
+  if(!name){
+    next({
+      message: "name required",
+      statuscode : 400
+    })
+    return;
+  }
+  if(!email){
+    next({
+      message: "email required",
+      statuscode : 400
+    })
+    return;
+  }
+  if(!password){
+    next({
+      message: "password required",
+      statuscode : 400
+    })
+    return;
+  }
+
   if (index === -1) {
-    res.status(404).json({
-      message: "user not found",
-      sucess: false,
-      data: null,
-    });
+    // res.status(404).json({
+    //   message: "user not found",
+    //   sucess: false,
+    //   data: null,
+    // });
+    next({
+      message : "user not found",
+      statuscode : 404
+    })
     return;
   }
   res.status(200).json({
@@ -86,11 +141,16 @@ export const remove = (req, res) => {
 
   const index = users.findIndex((user) => user._id === Number(id));
   if (index === -1) {
-    res.status(404).json({
-      message: "user not found",
-      sucess: false,
-      data: null,
-    });
+    // res.status(404).json({
+    //   message: "user not found",
+    //   sucess: false,
+    //   data: null,
+    // });
+    next({
+      message : "user not found",
+      statuscode : 404
+    })
+
     return;
   }
   users.splice(index, 1);

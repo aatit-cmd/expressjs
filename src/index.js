@@ -22,7 +22,7 @@ app.use((req,res,next)=>{
   req.user = {
     name : "john doe"
   }
-  next(123)
+  next()
 })
 
 app.use((req,res,next)=>{
@@ -66,10 +66,9 @@ server.listen(8080, "localhost", () => {
 });
 
 app.use((err, req, res, next)=>{
-  console.log("error handler")
   console.log(err)
-  res.status(500).json({
-    message:"something went wrong",
+  res.status(err?.statuscode ?? 500).json({
+    message: err?.message ?? "something went wrong",
     success : false,
     data : null
   })
