@@ -9,6 +9,34 @@ const app = express();
 //* creating http server
 const server = http.createServer(app);
 
+const middleware = (req, res, next) => {
+  console.log("middleware 1");
+  next();
+}
+
+//! using middleware
+app.use(middleware);
+
+app.use((req,res,next)=>{
+  console.log("middleware 2")
+  req.user = {
+    name : "john doe"
+  }
+  next()
+})
+
+app.use((req,res,next)=>{
+  console.log("middleware 3")
+  console.log(req.user);
+  if(req.user){
+    next();
+  }
+  else {res.status(401).json({
+    message: "Unauthorized. Access denied"
+  })
+}
+})
+
 app.use(express.json());
 
 // ip -> 198.168.1.1
@@ -93,3 +121,26 @@ server.listen(8080, "localhost", () => {
 
 //! resources
 // /dashboard -> {}
+
+
+//* middleware
+//? middleware is a function execute between request and response cycle. 
+//? 1. has access to request and response object and next function in the application request-response cycle.
+//? 2. can execute own logic
+//? 3. can modify request and response object
+//? 4. can end the request-response cycle
+
+//* types of middleware
+//* custom middleware -> user defined middleware
+//? 1. application level middleware ->
+//  app.use() -> executes for every request that is in the application
+//? 2. router level middleware ->
+//  router.use() -> executes for every request to that router 
+//? 3. error handling middleware -> 
+//  executes when an error occurs in the application
+
+// req -> mid1 -> mid2 -> mid3 -> midN -> controller
+
+//* third party middleware -> express.json(), express.urlencoded(), cors(), helmet() etc
+
+//* mongodb

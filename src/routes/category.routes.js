@@ -3,7 +3,6 @@ import { create, getAll, getById, remove } from "../controllers/category.control
 
 const router = express.Router();
 
-
 router.get("/",getAll)
 
 router.get("/:id",getById)

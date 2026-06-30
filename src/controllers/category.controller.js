@@ -16,7 +16,7 @@ export const getById = (req, res) => {
 
   if (!category) {
     res.status(404).json({
-      message: "category not foound",
+      message: "category not found",
       sucess: false,
       data: null,
     });
