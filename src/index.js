@@ -22,7 +22,7 @@ app.use((req,res,next)=>{
   req.user = {
     name : "john doe"
   }
-  next()
+  next(123)
 })
 
 app.use((req,res,next)=>{
@@ -64,6 +64,16 @@ server.listen(8080, "localhost", () => {
   console.log(`server is running at http://localhost:8080`);
   console.log("press ctrl+c to close the server");
 });
+
+app.use((err, req, res, next)=>{
+  console.log("error handler")
+  console.log(err)
+  res.status(500).json({
+    message:"something went wrong",
+    success : false,
+    data : null
+  })
+})
 
 //? expressJs /nestjs->
 // get/ users -> handler
@@ -136,7 +146,7 @@ server.listen(8080, "localhost", () => {
 //  app.use() -> executes for every request that is in the application
 //? 2. router level middleware ->
 //  router.use() -> executes for every request to that router 
-//? 3. error handling middleware -> 
+//? 3. error handling middleware : (err,req,res,next) => { }
 //  executes when an error occurs in the application
 
 // req -> mid1 -> mid2 -> mid3 -> midN -> controller
