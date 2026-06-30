@@ -2,10 +2,15 @@ import express from "express";
 import { create, getAll, getById, remove, update } from "../controllers/product.controller.js";
 const router = express.Router();
 
+
+const mid = (req, res, next) => {
+    console.log("get all products mid")
+    next();
+}
 //! CRUD product
 //* get all product
 //? get  ->product page
-router.get("/", getAll);
+router.get("/",mid, getAll);
 
 //* get  product by id
 router.get("/:id", getById);
