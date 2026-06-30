@@ -75,6 +75,7 @@ export const create = (req, res, next) => {
     createdAt: new Date(Date.now()),
     _id: users.length + 1,
   });
+  
   res.status(201).json({
     message: "user created",
     success: true,

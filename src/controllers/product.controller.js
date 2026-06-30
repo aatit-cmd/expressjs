@@ -9,17 +9,21 @@ export const getAll = (req, res) => {
   });
 }
 
-export const getById =(req, res) => {
+export const getById =(req, res, next) => {
   // const id = req.params.id
   const { id } = req.params; // as req.prarams give object
   const product = products.find((product) => product._id === Number(id));
 
   if (!product) {
-    res.status(404).json({
-      message: "product not found",
-      sucess: false,
-      data: null,
-    });
+    // res.status(404).json({
+    //   message: "product not found",
+    //   sucess: false,
+    //   data: null,
+    // });
+    next({
+      message : "product not found",
+      statuscode : 404
+    })
     return;
   }
 
@@ -33,11 +37,33 @@ export const getById =(req, res) => {
 export const create =(req, res) => {
   //   res.send("<h1>Product created</h1>");
   const { name, price, brand } = req.body;
+  if(!name){
+    next({
+      message: "name required",
+      statuscode : 400
+    })
+    return;
+  }
+  if(!price){
+    next({
+      message: "price required",
+      statuscode : 400
+    })
+    return;
+  }
+  if(!brand){
+    next({
+      message: "brand required",
+      statuscode : 400
+    })
+    return;
+  }
+
   products.push({
     name,
     price,
     brand,
-    createdAt: Date.now(),
+    createdAt: new Date(Date.now()),
     _id: products.length + 1,
   });
   res.status(201).json({
@@ -74,16 +100,23 @@ export const create =(req, res) => {
   });
 }
 
-export const remove = (req, res) => {
+export const remove = (req, res, next) => {
   //   res.send("<h1>Product deleted</h1>");
-  const id = req.params.id;
+  const {id} = req.params;
+  const index = products.findIndex((prod)=> prod._id === Number(id))
+
+  if(index === -1){
+    next({
+      message: "product id not found",
+      statuscode: 400
+    })
+  }
+
+  products.splice(index,1);
+  
   res.status(200).json({
     message: `product by id ${id} deleted`,
     success: true,
-    data: {
-      _id: id,
-      name: "product1",
-      brand: "brand",
-    },
+    data: products
   });
 }
