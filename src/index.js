@@ -3,6 +3,7 @@ import express from "express";
 import userRoutes from "./routes/user.routes.js";
 import productRoutes from "./routes/produt.routes.js";
 import categoryRoutes from "./routes/category.routes.js"
+import { connectDatabase } from "./config/db.config.js"
 
 const app = express();
 
@@ -13,6 +14,9 @@ const middleware = (req, res, next) => {
   console.log("middleware 1");
   next();
 }
+
+// connect database
+connectDatabase();
 
 //! using middleware
 app.use(middleware);
@@ -153,3 +157,12 @@ app.use((err, req, res, next)=>{
 //* third party middleware -> express.json(), express.urlencoded(), cors(), helmet() etc
 
 //* mongodb
+// NoSql
+// prisma orm, typeorm, sequelize orm
+// sqlbolt
+
+// sql
+// database -> database
+// table -> collections
+// column -> field
+// row -> document
