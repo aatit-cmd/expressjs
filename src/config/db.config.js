@@ -9,7 +9,7 @@ export const connectDatabase = () => {
       console.log("database connected");
     })
     .catch((error) => {
-      console.log("------database connection error--------");
+      console.log("------database connection error ------");
       console.log(error);
     });
 };

@@ -1,4 +1,13 @@
-const products = [];
+import moongoose from "mongoose"
+
+// const products = [];
+
+const prodeuctSchema = new moongoose.Schema({
+  name : {
+    type : String,
+    required : true,
+  }
+})
 
 export const getAll = (req, res) => {
   //   res.send("<h1>Product page</h1>");
